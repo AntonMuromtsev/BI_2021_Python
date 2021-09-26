@@ -1,4 +1,4 @@
-def nucleic_acid_checker(x: str):
+def nucleic_acid_checker(x: str) -> bool:
     """ Принимает строку. Проверяет последовательность нуклеиновой кислоты. Пропускает РНК и ДНК,
     не пропускает иные последовательности. Возвращает логическое значение, предназначена для работы в цикле """
 
@@ -13,11 +13,11 @@ def nucleic_acid_checker(x: str):
         return True
     else:
         print("\n", "Ваша последовательность не соотвествует формату. Пожалуйста, введите \n"
-              "последовательность ДНК (из букв A,T,C,G) или последовательность РНК (из букв A,U,C,G) \n", sep="")
+                    "последовательность ДНК (из букв A,T,C,G) или последовательность РНК (из букв A,U,C,G) \n", sep="")
         return False
 
 
-def nucleic_acid_type(x: str):
+def nucleic_acid_type(x: str) -> str:
     """ Принимает строку. Определяет тип нуклеиновой кислоты. Работает только с последовательностями
       нуклеиновых кислот. Возвращает тип нуклеиновой кислоты: DNA или RNA. Уточняет тип нулкеиновой кислоты
       (DNA или RNA), если его невозможно определить."""
@@ -33,7 +33,7 @@ def nucleic_acid_type(x: str):
         return "RNA"
     else:
         print("\n", "Указанная последовательность не может быть однозначно определена. Пожалуйста, укажите тип \n"
-              "нуклеиновой кислоты (DNA или RNA):  ", sep="", end="")
+                    "нуклеиновой кислоты (DNA или RNA):  ", sep="", end="")
         while True:
             verify = input()
             if verify == "RNA" or verify == "DNA":
@@ -41,10 +41,10 @@ def nucleic_acid_type(x: str):
             print("Вы неправильно ввели данные. Напишите либо DNA, либо RNA")
 
 
-def case_sensitive(x: str, func):
+def case_sensitive(x: str, func) -> str:
     """ Принимает строку и рабочую функцию. Учитывает регистр буквы: пропускает буквы верхнего регистра и
      временно преобразует буквы нижнего регистра. Возвращает преобразованную рабочей функцией строку.
-      Рабочие функции: reverse, transcribe, complement """
+      Рабочие функции: reverse, transcribe_nucl, complement """
 
     x = list(x)
     for i in range(len(x)):
@@ -58,14 +58,14 @@ def case_sensitive(x: str, func):
     return x
 
 
-def reverse(x: str):
+def reverse(x: str) -> str:
     """Принимает строку. Возвращает Инвертированную последовательность"""
 
     x = x[::-1]
     return x
 
 
-def transcribe(letter: str):
+def transcribe_nucl(letter: str) -> str:
     """ Принимает букву ДНК в верхнем регистре. Возвращает транскрибированную букву РНК"""
 
     letters = {"A": "U", "T": "A", "G": "C", "C": "G"}
@@ -73,48 +73,50 @@ def transcribe(letter: str):
     return letter
 
 
-def complement(x: str):
+def complement_dna_nucl(letter: str) -> str:
+    """Принимает букву ДНК в верхнем регистре и возвращает комплементарную букву ДНК"""
+
+    letters = {"A": "T", "T": "A", "G": "C", "C": "G"}
+    letter = letters[letter]
+    return letter
+
+
+def complement_rna_nucl(letter: str) -> str:
+    """Принимает букву РНК в верхнем регистре и возвращает комплементарную букву РНК """
+
+    letters = {"A": "U", "U": "A", "G": "C", "C": "G"}
+    letter = letters[letter]
+    return letter
+
+
+def complement(x: str) -> str:
     """Принимает последовательность ДНК или РНК. Определяет тип нуклеиновой кислоты и применяет к ней
     соотвествующую функцию. Возращает тип нуклеиновой кислоты и  комплементарную последовательность
     (ДНК -> ДНК и РНК -> РНК). Зависит от complement_dna, complement_rna, case_sensitive и nucleic_acid_type"""
 
-    def complement_dna(letter: str, ):
-        """Принимает букву ДНК в верхнем регистре и возвращает комплементарную букву ДНК"""
-
-        letters = {"A": "T", "T": "A", "G": "C", "C": "G"}
-        letter = letters[letter]
-        return letter
-
-    def complement_rna(letter: str):
-        """Принимает букву РНК в верхнем регистре и возвращает комплементарную букву РНК """
-
-        letters = {"A": "U", "U": "A", "G": "C", "C": "G"}
-        letter = letters[letter]
-        return letter
-
-
     if nucleic_acid_type(x) == "DNA":
-        return f" ДНК: {case_sensitive(x, complement_dna)}"
+        return f" ДНК: {case_sensitive(x, complement_dna_nucl)}"
     else:  # type == "RNA"
-        return f" РНК: {case_sensitive(x, complement_rna)}"
+        return f" РНК: {case_sensitive(x, complement_rna_nucl)}"
 
 
-def command_navigator(intsruction: str, item: str):
+def command_navigator(intsruction: str, item: str) -> bool:
     """Принимает командную инструкцию и объект, с которым будет работать. Передаёт объект в функцию,
     соотвествующую команде. Печатает итог работы функции, соответствующей командной инструкции. Предназначена
     для работы в цикле через логическую переменную flag (возвращает логический тип)
-    Зависит от reverse, transcribe, complement, case_sensitive, nucleic_acid_type"""
+    Зависит от reverse, transcribe_nucl, complement, case_sensitive, nucleic_acid_type"""
 
     if intsruction == "reverse":
         print("\n", "Ваша инвертированная последовательность: ", reverse(item), "\n", sep="")
         return False
     elif intsruction == "transcribe":
         if nucleic_acid_type(item) == "DNA":
-            print("\n", "Ваша транскрибированная последовательность: ", case_sensitive(item, transcribe), "\n", sep="")
+            print("\n", "Ваша транскрибированная последовательность: ", case_sensitive(item, transcribe_nucl), "\n",
+                  sep="")
             return False
         else:
             print("\n", "Ваша последовательность не является ДНК, поэтому её нельзя транскрибировать."
-                  " Пожалуйста, введите другую последовательность \n",  sep="")
+                        " Пожалуйста, введите другую последовательность \n", sep="")
             return True
     elif intsruction == "complement":
         print("\n", "Ваша комплементарная последовательность", complement(item), "\n", sep="")
@@ -132,11 +134,9 @@ def nucleic_acid_utility():
     в интерактивном режиме, для выхода ввести команду exit (работает только из основного меню)"""
 
     commands = {"reverse", "transcribe", "complement", "reverse complement", "exit"}
-    count = 0
+    print("Добро пожаловать!")
     while True:
-        count += 1
-        if count == 1:
-            print("\n", "Добро пожаловать!", end="\n\n", sep="")
+        print()
         command = input("Список команд программы: \n"
                         "reverse, transcribe \n"
                         "complement, reverse complement \n"
@@ -149,15 +149,16 @@ def nucleic_acid_utility():
             flag = True
             while flag:
                 print()
-                nucleic_acid = str(input(f"Ваша команда - {command}. Введите последовательность нуклеиновой кислоты."
-                                         " Для смены команды \n(в том числе для выхода из программы по команде exit)"
-                                         " введите 'change command':  "))
+                nucleic_acid = input(f"Ваша команда - {command}. Введите последовательность нуклеиновой кислоты."
+                                     " Для смены команды \n(в том числе для выхода из программы по команде exit)"
+                                     " введите 'change command':  ")
                 if nucleic_acid == "change command":
                     break
-                if nucleic_acid_checker(nucleic_acid) == False:  # функция проверит, что это ДНК или РНК
+                if nucleic_acid_checker(nucleic_acid) is False:  # function checks whether it is DNA or RNA
                     continue
                 else:
-                    flag = command_navigator(command, nucleic_acid) # применит к указ. посл. указ. команду
+                    flag = command_navigator(command, nucleic_acid)  # applies command from input to sequence
+                    # from anoter input
         else:
             print("\n", "Такая команда не поддерживается. Пожалуйста, введите команду из списка: \n ", sep="")
             continue
