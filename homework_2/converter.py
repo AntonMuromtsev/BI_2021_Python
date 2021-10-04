@@ -1,3 +1,7 @@
+def conflictt_feature:
+    """added another feature from second-homework-conflict"""
+    pass
+
 physical_quantities_and_units = {"pressure": {"pascal", "atmosphere", "mercury.column"}}
 print("Welcome to currency converter!")
 while True:
