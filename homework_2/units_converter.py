@@ -1,3 +1,8 @@
+def new_feature():
+    """new feature from second-homework branch"""
+    pass
+
+
 physical_quantities_and_units = {"pressure": {"pascal", "atmosphere", "mercury.column"}}
 print("Welcome to currency converter!")
 while True:
