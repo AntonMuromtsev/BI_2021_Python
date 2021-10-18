@@ -1,5 +1,5 @@
-def another_new_feature():
-    """another new feature from second-homework-conflict branch"""
+def new_feature():
+    """new feature from second-homework branch"""
     pass
 
 
