@@ -13,9 +13,8 @@ def gc_bounds_filter(read_sequence, minimum=0, maximum=100):
         else:
             atgc_total += 1
     gc_part = (gc_total / atgc_total) * 100
-    if minimum <= gc_part <= maximum:
-        return True
-    return False
+    return minimum <= gc_part <= maximum
+
 
 
 def length_bound_filter(read_sequence_length, minimum=0, maximum=2 ** 32):
@@ -60,7 +59,7 @@ def bounds_master(func_parameter, bounds, func):
         return func(func_parameter, *bounds)
 
 
-def main(input_fastq, output_file_prefix, gc_bounds, length_bounds,
+def main(input_fastq, output_file_prefix, gc_bounds=(0, 100), length_bounds=(0, 2 ** 32),
          quality_threshold=0, save_filtered=False):
     """Takes fastq file, filter the reads in accordance with filter parameters. Returns output file with reads
     passed the filters and, if required, returns file with reads didn't pass the filters
@@ -89,8 +88,8 @@ def main(input_fastq, output_file_prefix, gc_bounds, length_bounds,
             open(f"{output_file_prefix}_failed.fastq", mode="w") as failed:
         for raw_read in range(file_length // 4):
             read_information = raw.readline()
-            read_length = int(read_information.split()[2][7:])
             read_sequence = raw.readline()
+            read_length = len(read_sequence)
             plus_line = raw.readline()
             read_quality = raw.readline()
             if bounds_master(read_sequence, gc_bounds, gc_bounds_filter) is True \
@@ -102,4 +101,5 @@ def main(input_fastq, output_file_prefix, gc_bounds, length_bounds,
                     failed.write("".join([read_information, read_sequence, plus_line, read_quality]))
 
 
-main("", "", 75, 105, 30, True)
+main("/Users/tugidon/Desktop/amp_res_1.fastqc", "/Users/tugidon/Desktop/result")
+#main("/Users/tugidon/Desktop/amp_res_1.fastqc", "/Users/tugidon/Desktop/result",20, save_filtered = True)
