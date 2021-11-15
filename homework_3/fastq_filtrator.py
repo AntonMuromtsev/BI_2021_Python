@@ -16,7 +16,6 @@ def gc_bounds_filter(read_sequence, minimum=0, maximum=100):
     return minimum <= gc_part <= maximum
 
 
-
 def length_bound_filter(read_sequence_length, minimum=0, maximum=2 ** 32):
     """Require a length of raw read from fasta file.
     Returns True if sequence length is above min and below max"""
@@ -102,4 +101,4 @@ def main(input_fastq, output_file_prefix, gc_bounds=(0, 100), length_bounds=(0, 
 
 
 main("/Users/tugidon/Desktop/amp_res_1.fastqc", "/Users/tugidon/Desktop/result")
-#main("/Users/tugidon/Desktop/amp_res_1.fastqc", "/Users/tugidon/Desktop/result",20, save_filtered = True)
+# main("/Users/tugidon/Desktop/amp_res_1.fastqc", "/Users/tugidon/Desktop/result",20, save_filtered = True)
