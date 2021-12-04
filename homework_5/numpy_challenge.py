@@ -2,18 +2,17 @@ import numpy as np
 
 
 def matrix_multiplication(m1, m2):
-    result = []
     nrow_m1 = m1.shape[0]
     ncol_m2 = m2.shape[1]
+    result = np.zeros(nrow_m1 * ncol_m2).reshape(nrow_m1, ncol_m2)
     for i in range(nrow_m1):
         for j in range(ncol_m2):
             dot = m1[i, :] * m2[:, j]
-            result.append(dot.sum())
-    result = np.array(result).reshape(nrow_m1, ncol_m2)
+            result[i][j] = dot.sum()
     return result
 
 
-def multiplication_check(matrix_list: list) -> bool:
+def multiplication_check(matrix_list):
     ncol = matrix_list[0].shape[1]
     for i in range(1, len(matrix_list)):
         nrow = matrix_list[i].shape[0]
@@ -24,7 +23,7 @@ def multiplication_check(matrix_list: list) -> bool:
     return True
 
 
-def multiply_matrices(matrix_list: list):
+def multiply_matrices(matrix_list):
     if multiplication_check(matrix_list) is False:
         return None
     step = matrix_multiplication(matrix_list[0], matrix_list[1])
@@ -46,11 +45,10 @@ def compute_2d_distance(arr1, arr2):
 
 def compute_pair_distances(matrix):
     nrow = matrix.shape[0]
-    dist_matrix = np.zeros(nrow ** 2).reshape(nrow, nrow)
+    dist_matrix = np.zeros((nrow, nrow))
     for i in range(nrow):
         for j in range(nrow):
-            coord = (matrix[i, ] - matrix[j, ]) ** 2
-            dist = (coord.sum()) ** 0.5
+            dist = compute_multidimensional_distance(matrix[i, ], matrix[j, ])
             dist_matrix[i, j] = dist
     return dist_matrix
 
