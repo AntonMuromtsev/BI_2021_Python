@@ -28,7 +28,7 @@ def parse_sequence(record_id, record_seq):
     return
 
 
-class MyProcess(multiprocess.Process):
+class MyProcess(multiprocessing.Process):
     def __init__(self, records):
         super().__init__()
         self.records = records
@@ -46,7 +46,7 @@ def parse_fasta_fast(filename, threads):
         processes.append(MyProcess(records))
     for proc in processes:
         proc.start()
-    for proc in processes:
+p    for proc in processes:
         proc.join()
 
 

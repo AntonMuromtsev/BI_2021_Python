@@ -1,0 +1,4 @@
+biopython==1.79
+dill==0.3.4
+multiprocess==0.70.12.2
+numpy==1.21.6
